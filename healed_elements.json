@@ -1,34 +1,39 @@
 {
   "healed_elements": [
     {
-      "original": "#username",
-      "healed": "[placeholder='Enter username']",
-      "confidence": 0.97,
-      "timestamp": "2025-03-19T13:45:22.091Z"
-    },
-    {
+      "name": "Login Button",
       "original": "#login-button",
       "healed": "[data-testid='login-btn']",
-      "confidence": 0.85,
-      "timestamp": "2025-03-19T14:30:05.078Z"
+      "confidence": 0.99,
+      "timestamp": "2025-03-19T15:00:26.597Z"
     },
     {
-      "original": "#submit-btn",
-      "healed": "[role='button']",
-      "confidence": 0.86,
-      "timestamp": "2025-03-20T06:07:37.928Z"
-    },
-    {
+      "name": "Password Field",
       "original": "#password",
       "healed": "[name='password-field']",
-      "confidence": 0.85,
-      "timestamp": "2025-03-19T10:54:35.991Z"
+      "confidence": 0.91,
+      "timestamp": "2025-03-19T15:30:41.990Z"
     },
     {
+      "name": "Search Box",
+      "original": "#search-box",
+      "healed": "[aria-label='search']",
+      "confidence": 0.81,
+      "timestamp": "2025-03-20T00:33:07.001Z"
+    },
+    {
+      "name": "Submit Button",
+      "original": "#submit-btn",
+      "healed": "[role='button']",
+      "confidence": 0.82,
+      "timestamp": "2025-03-19T18:05:15.683Z"
+    },
+    {
+      "name": "Username Input",
       "original": "#username",
       "healed": "[placeholder='Enter username']",
       "confidence": 0.85,
-      "timestamp": "2025-03-20T03:13:01.150Z"
+      "timestamp": "2025-03-19T16:34:18.375Z"
     }
   ]
 }

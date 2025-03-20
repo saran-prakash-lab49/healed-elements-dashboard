@@ -12,27 +12,43 @@ function getRandomTimestamp() {
     return new Date(now - randomOffset).toISOString();
 }
 
-// Sample original locators and healed locators
-const originalLocators = ["#login-button", "#password", "#search-box", "#submit-btn", "#username"];
-const healedLocators = ["[data-testid='login-btn']", "[name='password-field']", "[aria-label='search']", "[role='button']", "[placeholder='Enter username']"];
+// Locator mappings
+const locators = {
+    "Login Button": "#login-button",
+    "Password Field": "#password",
+    "Search Box": "#search-box",
+    "Submit Button": "#submit-btn",
+    "Username Input": "#username"
+};
+
+// Corresponding healed locators
+const healedLocators = {
+    "Login Button": "[data-testid='login-btn']",
+    "Password Field": "[name='password-field']",
+    "Search Box": "[aria-label='search']",
+    "Submit Button": "[role='button']",
+    "Username Input": "[placeholder='Enter username']"
+};
 
 // Function to generate random healed elements
-function generateHealedElements(count = 5) {
+function generateHealedElements() {
     const elements = [];
-    for (let i = 0; i < count; i++) {
-        const randomIndex = Math.floor(Math.random() * originalLocators.length);
+
+    for (const [locatorName, original] of Object.entries(locators)) {
         elements.push({
-            original: originalLocators[randomIndex],
-            healed: healedLocators[randomIndex],
+            name: locatorName,        // Adding locator name
+            original: original,
+            healed: healedLocators[locatorName],
             confidence: parseFloat(getRandomConfidence()),
             timestamp: getRandomTimestamp()
         });
     }
+
     return { healed_elements: elements };
 }
 
 // Generate and save JSON data
-const data = generateHealedElements(5);
+const data = generateHealedElements();
 fs.writeFileSync('healed_elements.json', JSON.stringify(data, null, 2));
 
-console.log('✅ Generated healed_elements.json');
+console.log('✅ Generated healed_elements.json with Locator Names');

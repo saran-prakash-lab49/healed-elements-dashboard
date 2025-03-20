@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 * * * *"  # Runs every hour
+    - cron: "0 0 * * 0"  # Runs every Sunday at midnight UTC
 
 jobs:
   update-json:
@@ -19,9 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-
-      - name: Install Dependencies
-        run: npm install  # Skip if not using dependencies
 
       - name: Run Script to Generate JSON
         run: node generate-random-json.js

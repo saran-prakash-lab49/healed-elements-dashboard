@@ -15,109 +15,181 @@
 <h1>Healed Elements Dashboard</h1>
 <div id="elements-list"></div>
 <button id="approve-all-btn" class="approve-btn" disabled>Approve Selected</button>
-        <script>
-            const GITHUB_REPO = "healed-elements-dashboard";  // Update with your repo
-            const GITHUB_OWNER = "saran-prakash-lab49";  // Update with your username/org
-            const FILE_PATH = "data/locators.json"; // Path where locators are stored
-            const GITHUB_TOKEN = "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"; // Use environment variable in production
 
-            async function fetchData() {
-                const response = await fetch('healed_elements.json');
-                const data = await response.json();
-                return data;
-            }
 
-            function renderData(data) {
-                const elementsList = document.getElementById('elements-list');
-                elementsList.innerHTML = '';
+<!-- GitHub Token Modal -->
+<div id="token-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Enter GitHub Token</h2>
+        <input type="password" id="github-token-input" placeholder="Enter your GitHub Token">
+        <button id="submit-token-btn">Submit</button>
+    </div>
+</div>
 
-                data.healed_elements.forEach((element, index) => {
-                    const elementDiv = document.createElement('div');
-                    elementDiv.className = 'element';
-                    elementDiv.innerHTML = `
-                <p><strong>Element Name:</strong> ${element.name}</p>
+<!-- Approve Selected Button -->
+<button id="approve-all-btn" disabled>Approve Selected</button>
+
+<div id="elements-list"></div>
+
+<style>
+    /* Modal Styling */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        width: 300px;
+        margin: 15% auto;
+        text-align: center;
+        position: relative;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    const GITHUB_REPO = "healed-elements-dashboard";
+    const GITHUB_OWNER = "saran-prakash-lab49";
+    const FILE_PATH = "data/locators.json";
+
+    let githubToken = ""; // Will store the user-provided token
+
+    async function fetchData() {
+        const response = await fetch('healed_elements.json');
+        return await response.json();
+    }
+
+    function renderData(data) {
+        const elementsList = document.getElementById('elements-list');
+        elementsList.innerHTML = '';
+
+        if (!data.healed_elements || data.healed_elements.length === 0) {
+            elementsList.innerHTML = "<p>No healed elements found.</p>";
+            return;
+        }
+
+        data.healed_elements.forEach(element => {
+            const elementDiv = document.createElement('div');
+            elementDiv.className = 'element';
+            elementDiv.innerHTML = `
+                <p><strong>Name:</strong> ${element.name}</p>
                 <p><strong>Original:</strong> ${element.original}</p>
-                <input type="checkbox" class="approve-checkbox" data-name="${element.name}" data-original="${element.original}">
+                <p><strong>Healed:</strong> ${element.healed}</p>
+                <p><strong>Confidence:</strong> ${element.confidence}</p>
+                <input type="checkbox" class="approve-checkbox" data-name="${element.name}" data-original="${element.original}" data-healed="${element.healed}">
                 <label> Approve </label>
-              `;
-                    elementsList.appendChild(elementDiv);
-                });
+            `;
+            elementsList.appendChild(elementDiv);
+        });
 
-                document.getElementById('approve-all-btn').disabled = false;
+        document.getElementById('approve-all-btn').disabled = false;
+    }
+
+    async function handleApproval() {
+        const checkboxes = document.querySelectorAll('.approve-checkbox');
+        const approvedLocators = {};
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                approvedLocators[checkbox.dataset.name] = checkbox.dataset.healed;
             }
+        });
 
-            async function handleApproval() {
-                const checkboxes = document.querySelectorAll('.approve-checkbox');
-                const approvedLocators = {};
+        if (Object.keys(approvedLocators).length > 0) {
+            openTokenModal(approvedLocators);
+        } else {
+            alert('No elements selected for approval.');
+        }
+    }
 
-                checkboxes.forEach(checkbox => {
-                    if (checkbox.checked) {
-                        approvedLocators[checkbox.dataset.name] = checkbox.dataset.original;
-                    }
-                });
+    function openTokenModal(approvedLocators) {
+        const modal = document.getElementById("token-modal");
+        modal.style.display = "block";
 
-                if (Object.keys(approvedLocators).length > 0) {
-                    alert(`Committing ${Object.keys(approvedLocators).length} approved locators...`);
-                    await commitToGitHub(approvedLocators);
-                } else {
-                    alert('No elements selected for approval.');
-                }
+        document.getElementById("submit-token-btn").onclick = async function () {
+            githubToken = document.getElementById("github-token-input").value;
+            if (!githubToken) {
+                alert("GitHub token is required!");
+                return;
             }
+            modal.style.display = "none";
+            await commitToGitHub(approvedLocators, githubToken);
+        };
+    }
 
-            async function commitToGitHub(approvedLocators) {
-                const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${FILE_PATH}`;
+    async function commitToGitHub(approvedLocators, token) {
+        const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${FILE_PATH}`;
 
-                // Fetch existing locators.json content
-                const fileResponse = await fetch(apiUrl, {
-                    headers: { Authorization: `token ${GITHUB_TOKEN}` }
-                });
+        const fileResponse = await fetch(apiUrl, {
+            headers: { Authorization: `token ${token}` }
+        });
 
-                let existingLocators = {};
-                let sha = "";
+        let existingLocators = {};
+        let sha = "";
 
-                if (fileResponse.ok) {
-                    const fileData = await fileResponse.json();
-                    sha = fileData.sha;
-                    existingLocators = JSON.parse(atob(fileData.content)).locators;
-                }
+        if (fileResponse.ok) {
+            const fileData = await fileResponse.json();
+            sha = fileData.sha;
+            existingLocators = JSON.parse(atob(fileData.content)).locators;
+        }
 
-                // Merge approved locators with existing ones
-                const updatedLocators = { locators: { ...existingLocators, ...approvedLocators } };
-                const updatedContent = btoa(JSON.stringify(updatedLocators, null, 2));
+        const updatedLocators = { locators: { ...existingLocators, ...approvedLocators } };
+        const updatedContent = btoa(JSON.stringify(updatedLocators, null, 2));
 
-                // Prepare commit payload
-                const commitData = {
-                    message: "Approved healed locators",
-                    content: updatedContent,
-                    sha
-                };
+        const commitData = {
+            message: "Approved healed locators",
+            content: updatedContent,
+            sha
+        };
 
-                // Commit to GitHub
-                const commitResponse = await fetch(apiUrl, {
-                    method: "PUT",
-                    headers: {
-                        "Authorization": `token ${GITHUB_TOKEN}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(commitData)
-                });
+        const commitResponse = await fetch(apiUrl, {
+            method: "PUT",
+            headers: {
+                "Authorization": `token ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(commitData)
+        });
 
-                if (commitResponse.ok) {
-                    alert("Successfully committed approved locators!");
-                } else {
-                    alert("Commit failed. Check console for details.");
-                    console.error(await commitResponse.json());
-                }
-            }
+        if (commitResponse.ok) {
+            alert("Successfully committed approved locators!");
+        } else {
+            alert("Commit failed. Check console for details.");
+            console.error(await commitResponse.json());
+        }
+    }
 
-            async function init() {
-                const data = await fetchData();
-                renderData(data);
-                document.getElementById('approve-all-btn').addEventListener('click', handleApproval);
-            }
+    document.getElementById('approve-all-btn').addEventListener('click', handleApproval);
 
-            init();
-        </script>
+    document.querySelector(".close").onclick = function () {
+        document.getElementById("token-modal").style.display = "none";
+    };
+
+    async function init() {
+        const data = await fetchData();
+        renderData(data);
+    }
+
+    init();
+</script>
+
 
 
 </body>
