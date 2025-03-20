@@ -4,36 +4,36 @@
       "name": "Login Button",
       "original": "#login-button",
       "healed": "[data-testid='login-btn']",
-      "confidence": 0.99,
-      "timestamp": "2025-03-19T15:00:26.597Z"
+      "confidence": 0.88,
+      "timestamp": "2025-03-20T08:17:54.482Z"
     },
     {
       "name": "Password Field",
       "original": "#password",
       "healed": "[name='password-field']",
-      "confidence": 0.91,
-      "timestamp": "2025-03-19T15:30:41.990Z"
+      "confidence": 0.94,
+      "timestamp": "2025-03-19T19:28:36.876Z"
     },
     {
       "name": "Search Box",
       "original": "#search-box",
       "healed": "[aria-label='search']",
-      "confidence": 0.81,
-      "timestamp": "2025-03-20T00:33:07.001Z"
+      "confidence": 0.97,
+      "timestamp": "2025-03-20T06:35:23.900Z"
     },
     {
       "name": "Submit Button",
       "original": "#submit-btn",
       "healed": "[role='button']",
-      "confidence": 0.82,
-      "timestamp": "2025-03-19T18:05:15.683Z"
+      "confidence": 0.92,
+      "timestamp": "2025-03-19T15:57:22.665Z"
     },
     {
       "name": "Username Input",
       "original": "#username",
       "healed": "[placeholder='Enter username']",
-      "confidence": 0.85,
-      "timestamp": "2025-03-19T16:34:18.375Z"
+      "confidence": 0.81,
+      "timestamp": "2025-03-20T05:33:29.358Z"
     }
   ]
 }
