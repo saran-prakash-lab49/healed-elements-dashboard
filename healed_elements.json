@@ -1,34 +1,34 @@
 {
   "healed_elements": [
     {
-      "original": "#password",
-      "healed": "[name='password-field']",
-      "confidence": 0.83,
-      "timestamp": "2025-03-19T20:41:20.169Z"
-    },
-    {
-      "original": "#submit-btn",
-      "healed": "[role='button']",
-      "confidence": 0.82,
-      "timestamp": "2025-03-19T18:47:18.025Z"
+      "original": "#username",
+      "healed": "[placeholder='Enter username']",
+      "confidence": 0.97,
+      "timestamp": "2025-03-19T13:45:22.091Z"
     },
     {
       "original": "#login-button",
       "healed": "[data-testid='login-btn']",
-      "confidence": 0.88,
-      "timestamp": "2025-03-20T09:33:23.624Z"
+      "confidence": 0.85,
+      "timestamp": "2025-03-19T14:30:05.078Z"
+    },
+    {
+      "original": "#submit-btn",
+      "healed": "[role='button']",
+      "confidence": 0.86,
+      "timestamp": "2025-03-20T06:07:37.928Z"
     },
     {
       "original": "#password",
       "healed": "[name='password-field']",
-      "confidence": 0.94,
-      "timestamp": "2025-03-19T11:38:22.310Z"
+      "confidence": 0.85,
+      "timestamp": "2025-03-19T10:54:35.991Z"
     },
     {
-      "original": "#search-box",
-      "healed": "[aria-label='search']",
+      "original": "#username",
+      "healed": "[placeholder='Enter username']",
       "confidence": 0.85,
-      "timestamp": "2025-03-19T23:34:28.546Z"
+      "timestamp": "2025-03-20T03:13:01.150Z"
     }
   ]
 }
