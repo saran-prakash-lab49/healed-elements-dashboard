@@ -4,6 +4,6 @@
     "Password Field": "#password",
     "Search Box": "#search-box",
     "Submit Button": "#submit-btn",
-    "Username Input": "#username"
+    "Username Input": "[placeholder='Enter username']"
   }
 }
