@@ -1,0 +1,35 @@
+name: Update JSON and Commit
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 * * * *"  # Runs every hour
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install  # Skip if not using dependencies
+
+      - name: Run Script to Generate JSON
+        run: node generate-random-json.js
+
+      - name: Commit & Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions@github.com"
+          git add healed_elements.json index.html
+          git commit -m "Auto-update healed elements JSON"
+          git push
