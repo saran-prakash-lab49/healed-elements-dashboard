@@ -1,5 +1,16 @@
 const fs = require('fs');
 
+// Function to read locators from JSON file
+function getLocatorsFromFile(filePath) {
+    try {
+        const data = fs.readFileSync(filePath, 'utf-8');
+        return JSON.parse(data).locators; // Extract locators object
+    } catch (error) {
+        console.error('❌ Error reading locators file:', error);
+        return {}; // Return empty object in case of failure
+    }
+}
+
 // Function to generate a random confidence value between 0.8 and 0.99
 function getRandomConfidence() {
     return (Math.random() * (0.99 - 0.8) + 0.8).toFixed(2);
@@ -12,23 +23,34 @@ function getRandomTimestamp() {
     return new Date(now - randomOffset).toISOString();
 }
 
-// Locator mappings
-const locators = {
-    "Login Button": "#login-button",
-    "Password Field": "#password",
-    "Search Box": "#search-box",
-    "Submit Button": "#submit-btn",
-    "Username Input": "#username"
-};
+// Extended list of prefixes and suffixes for generating more unique healed locators
+const prefixes = [
+    '[data-healed]', '[aria-label]', '[role="button"]', '[data-testid]', '[ng-reflect-name]',
+    '[automation-id]', '[formcontrolname]', '[data-cy]', '[custom-attr]', '[app-element]'
+];
 
-// Corresponding healed locators
-const healedLocators = {
-    "Login Button": "[data-testid='login-btn']",
-    "Password Field": "[name='password-field']",
-    "Search Box": "[aria-label='search']",
-    "Submit Button": "[role='button']",
-    "Username Input": "[placeholder='Enter username']"
-};
+const suffixes = [
+    '-v1', '-fixed', '-alt', '-new', '-backup', '-patched', '-latest', '-dynamic', '-updated', '-2025'
+];
+
+// Function to generate a random healed locator
+function getRandomHealedLocator(originalLocator) {
+    const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+
+    // Randomly replace '#' with a prefix or append a suffix
+    if (originalLocator.includes('#')) {
+        return originalLocator.replace('#', randomPrefix);
+    } else {
+        return `${originalLocator}${randomSuffix}`;
+    }
+}
+
+// File path for locators.json
+const LOCATORS_FILE_PATH = 'data/locators.json';
+
+// Read locators dynamically
+const locators = getLocatorsFromFile(LOCATORS_FILE_PATH);
 
 // Function to generate random healed elements
 function generateHealedElements() {
@@ -36,9 +58,9 @@ function generateHealedElements() {
 
     for (const [locatorName, original] of Object.entries(locators)) {
         elements.push({
-            name: locatorName,        // Adding locator name
+            name: locatorName,
             original: original,
-            healed: healedLocators[locatorName],
+            healed: getRandomHealedLocator(original), // Generate random healed locator
             confidence: parseFloat(getRandomConfidence()),
             timestamp: getRandomTimestamp()
         });
@@ -51,4 +73,4 @@ function generateHealedElements() {
 const data = generateHealedElements();
 fs.writeFileSync('healed_elements.json', JSON.stringify(data, null, 2));
 
-console.log('✅ Generated healed_elements.json with Locator Names');
+console.log('✅ Generated healed_elements.json with dynamically fetched and random healed locators');
