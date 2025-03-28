@@ -1,7 +1,7 @@
 {
   "locators": {
     "Login Button": "#login-button",
-    "Password Field": "#password",
+    "Password Field": "[aria-label]password",
     "Search Box": "#search-box",
     "Submit Button": "#submit-btn",
     "Username Input": "[placeholder='Enter username']-2025"
