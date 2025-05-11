@@ -4,36 +4,36 @@
       "name": "Login Button",
       "original": "#login-button",
       "healed": "[data-cy]login-button",
-      "confidence": 0.98,
-      "timestamp": "2025-05-03T10:18:09.850Z"
+      "confidence": 0.85,
+      "timestamp": "2025-05-10T13:10:59.462Z"
     },
     {
       "name": "Password Field",
       "original": "password",
-      "healed": "password-alt",
+      "healed": "password-2025",
       "confidence": 0.84,
-      "timestamp": "2025-05-03T13:44:04.917Z"
+      "timestamp": "2025-05-10T17:04:50.311Z"
     },
     {
       "name": "Search Box",
       "original": "#search-box",
       "healed": "[custom-attr]search-box",
-      "confidence": 0.81,
-      "timestamp": "2025-05-04T01:55:13.160Z"
+      "confidence": 0.85,
+      "timestamp": "2025-05-10T07:49:37.495Z"
     },
     {
       "name": "Submit Button",
       "original": "#submit-btn",
-      "healed": "[data-healed]submit-btn",
-      "confidence": 0.88,
-      "timestamp": "2025-05-03T18:40:50.729Z"
+      "healed": "[role=\"button\"]submit-btn",
+      "confidence": 0.99,
+      "timestamp": "2025-05-10T17:00:06.705Z"
     },
     {
       "name": "Username Input",
       "original": "[placeholder='Enter username']-2025",
-      "healed": "[placeholder='Enter username']-2025-new",
-      "confidence": 0.8,
-      "timestamp": "2025-05-03T23:00:34.588Z"
+      "healed": "[placeholder='Enter username']-2025-v1",
+      "confidence": 0.82,
+      "timestamp": "2025-05-10T21:00:57.034Z"
     }
   ]
 }
