@@ -4,36 +4,36 @@
       "name": "Login Button",
       "original": "#login-button",
       "healed": "[aria-label]login-button",
-      "confidence": 0.88,
-      "timestamp": "2026-01-25T00:23:51.763Z"
+      "confidence": 0.85,
+      "timestamp": "2026-01-31T04:31:30.073Z"
     },
     {
       "name": "Password Field",
       "original": "password",
-      "healed": "password-2025",
-      "confidence": 0.92,
-      "timestamp": "2026-01-24T23:25:41.094Z"
+      "healed": "password-patched",
+      "confidence": 0.9,
+      "timestamp": "2026-01-31T16:27:19.377Z"
     },
     {
       "name": "Search Box",
       "original": "#search-box",
-      "healed": "[ng-reflect-name]search-box",
-      "confidence": 0.81,
-      "timestamp": "2026-01-24T19:15:12.439Z"
+      "healed": "[data-healed]search-box",
+      "confidence": 0.87,
+      "timestamp": "2026-01-31T11:02:53.614Z"
     },
     {
       "name": "Submit Button",
       "original": "#submit-btn",
-      "healed": "[role=\"button\"]submit-btn",
-      "confidence": 0.98,
-      "timestamp": "2026-01-24T23:39:23.405Z"
+      "healed": "[data-healed]submit-btn",
+      "confidence": 0.96,
+      "timestamp": "2026-01-31T19:45:02.784Z"
     },
     {
       "name": "Username Input",
       "original": "[placeholder='Enter username']-2025",
-      "healed": "[placeholder='Enter username']-2025-latest",
-      "confidence": 0.82,
-      "timestamp": "2026-01-24T04:21:20.185Z"
+      "healed": "[placeholder='Enter username']-2025-v1",
+      "confidence": 0.84,
+      "timestamp": "2026-01-31T11:55:36.480Z"
     }
   ]
 }
